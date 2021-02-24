@@ -11,7 +11,7 @@ public class BDController {
 	public BDController() {
 		super();
 		try {
-			this.conexion = DriverManager.getConnection("jdbc:mysql://192.168.10.48:3306/MUSICA", "root", "");
+			this.conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/musica_pablo", "root", "");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			System.out.println("Error en el constructor vacio del BDController");
@@ -131,7 +131,7 @@ public class BDController {
 		}
 		return canciones;
 	}
-	
+
 	public Cancion cancionmasLarga() {
 		ArrayList<Cancion> canciones = new ArrayList<Cancion>();
 		try {
@@ -149,8 +149,8 @@ public class BDController {
 		}
 		return canciones.get(0);
 	}
-	
-	public ArrayList<Cancion> cancionesMenorLongitud(double duracion){
+
+	public ArrayList<Cancion> cancionesMenorLongitud(double duracion) {
 		ArrayList<Cancion> canciones = new ArrayList<Cancion>();
 		try {
 			Statement miStatement = this.conexion.createStatement();
@@ -167,19 +167,36 @@ public class BDController {
 		}
 		return canciones;
 	}
-	
+
 	public ArrayList<Cancion> cancionesDisco(String discName) {
 		ArrayList<Cancion> canciones = new ArrayList<Cancion>();
 		try {
 			Statement miStatement = this.conexion.createStatement();
-			ResultSet rs = miStatement.executeQuery("SELECT * FROM cancion WHERE )
+			ResultSet rs = miStatement.executeQuery("SELECT * FROM cancion WHERE ");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
-		
+		return canciones;
+
 	}
-	
+
+	public boolean existeArtista(String dni) {
+		boolean existe = false;
+		try {
+			Statement miStatement = this.conexion.createStatement();
+			String sql = "SELECT * FROM artista WHERE dni LIKE '" + dni + "'";
+			ResultSet rs = miStatement.executeQuery(sql);
+			if (rs.next()==true) {
+				existe = true;
+			} 
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Error en existe artista");
+		}
+		return existe;
+
+	}
 
 }
